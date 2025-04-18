@@ -25,10 +25,10 @@
     <!-- Input Form -->
     <form action="{{ url_for('fetch_info') }}" method="post" id="fetch-form">
         <label for="url">Instagram Post/Reel URL:</label>
-        <input type="url" id="url" name="url" placeholder="Paste URL here (e.g., https://www.instagram.com/p/C.../)" required>
+        <input type="url" id="url" name="url" placeholder="Paste URL here..." required>
         <!-- Helper text -->
         <small class="input-helper-text">
-            Please provide the full URL to the Instagram post, reel, or TV video.
+            Please provide the full URL to the Instagram post, reel or video.
         </small>
         <!-- Submit button -->
         <button type="submit" id="fetch-button">Fetch Info</button>
