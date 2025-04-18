@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Crucial for responsiveness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Selection</title>
+    <!-- Link the main CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Favicon placeholder -->
+    <link rel="icon" href="#" type="image/x-icon">
+
+    <!-- Styles specific to the media grid on this page -->
+    <style>
+        .media-grid {
+            display: grid;
+            /* Adjust minmax for desired item size and responsiveness */
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px; /* Increased gap */
+            margin-top: 1.5em;
+            /* Removed background/border from the grid container itself */
+        }
+        .media-item {
+            background-color: var(--card-bg-color); /* Use card background */
+            border: 1px solid var(--border-color);
+            border-radius: 6px; /* Slightly more rounded corners */
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Clip content */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .media-item:hover {
+            transform: translateY(-4px); /* Lift effect */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); /* More pronounced shadow */
+        }
+
+        .media-item .image-container {
+             /* Container for the image or error message */
+             width: 100%;
+             aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
+             background-color: var(--input-bg); /* Darker bg for loading/error */
+             display: flex; /* Center content vertically/horizontally */
+             align-items: center;
+             justify-content: center;
+             overflow: hidden; /* Ensure image doesn't overflow */
+             border-bottom: 1px solid var(--border-color); /* Separator line */
+        }
+
+        .media-item img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Cover the container */
+        }
+
+        .media-item .preview-error-item {
+             padding: 10px;
+             color: var(--error-text);
+             font-size: 0.9em;
+             width: 100%;
+             height: 100%;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             justify-content: center;
+             line-height: 1.3;
+         }
+         .media-item .preview-error-item strong {
+             font-size: 1.5em; /* Make icon bigger */
+             margin-bottom: 5px;
+         }
+
+        .media-item .item-info {
+             padding: 12px 10px 8px 10px;
+             font-size: 0.9em;
+             color: var(--text-secondary);
+             flex-shrink: 0;
+        }
+        .media-item .item-type-icon {
+            font-size: 1.1em;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .media-item .download-button-container {
+             padding: 0px 10px 12px 10px; /* Bottom padding */
+             margin-top: auto; /* Pushes this container to the bottom */
+             flex-shrink: 0;
+        }
+
+        .media-item .download-button {
+            padding: 0.6em 1.2em;
+            font-size: 0.9em;
+            width: 100%;
+            display: block;
+            box-sizing: border-box;
+        }
+
+        /* --- Loading Overlay --- */
+        #loading-overlay {
+             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+             background-color: rgba(0, 0, 0, 0.7);
+             z-index: 1000; display: none; justify-content: center;
+             align-items: center; color: white; font-size: 1.5em;
+             text-align: center; padding: 20px;
+        }
+
+        /* --- Responsive Grid Adjustments (also handled in style.css but repeated here for context) --- */
+        @media (max-width: 768px) {
+            .media-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 15px;
+            }
+            .media-item .item-info,
+            .media-item .download-button {
+                font-size: 0.85em;
+            }
+             .media-item .download-button {
+                padding: 0.5em 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .media-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .media-item .download-button {
+                font-size: 0.8em;
+                padding: 0.6em 0.8em;
+            }
+             #loading-overlay p { font-size: 1.2em; }
+             #loading-overlay p small { font-size: 0.8em; }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <p>Downloading...<br><small>(Please wait, this may take a moment)</small></p>
+    </div>
+
+    <h1>Media Preview</h1>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Basic Post Info Section -->
+    <div class="container">
+        <!-- Applied styles from style.css, added inline overrides for this specific container -->
+        <div class="info" style="flex-basis: 100%; background-color: transparent !important; border: none !important; padding: 0 !important;">
+            <h2 style="margin-top: 0;">Post Info</h2> <!-- Removed top margin from H2 -->
+            <p><strong>Username:</strong> {{ post.username }}</p>
+            <p><strong>Type:</strong> {{ post.type }}</p>
+            <p><strong>Shortcode:</strong> {{ post.shortcode }}</p>
+             {% if post.caption %}
+            <p><strong>Caption:</strong></p>
+            <!-- Caption uses its own styling from style.css -->
+            <div class="caption">{{ post.caption }}</div>
+             {% endif %}
+        </div>
+    </div>
+
+    <!-- Media Grid Section -->
+    <h2 style="margin-top: 2em;">Available Media</h2>
+    <div class="media-grid">
+        {% if post.media_items %}
+            {% for item in post.media_items %}
+            <div class="media-item">
+
+                <!-- Image/Error Container -->
+                <div class="image-container">
+                    {% if item.preview_b64 %}
+                        <img src="{{ item.preview_b64 }}" alt="Preview {{ loop.index }}">
+                    {% elif item.preview_error %}
+                        <div class="preview-error-item">
+                            <strong>⚠️</strong> <!-- Larger Icon -->
+                            Preview Error
+                        </div>
+                    {% else %}
+                         <div class="preview-error-item">
+                            <strong>🖼️</strong> <!-- Icon for No Preview -->
+                             No Preview Available
+                         </div>
+                    {% endif %}
+                </div> <!-- End image-container -->
+
+                <!-- Info Section -->
+                 <div class="item-info">
+                     {% if item.is_video %}
+                         <span class="item-type-icon" title="Video">🎬</span> Video
+                     {% else %}
+                          <span class="item-type-icon" title="Image">🖼️</span> Image
+                     {% endif %}
+                     ({{ loop.index }}/{{ loop.length }})
+                </div>
+
+                <!-- Download Button Container -->
+                <div class="download-button-container">
+                    <a href="{{ url_for('download_item', shortcode=post.shortcode, item_index=item.index) }}"
+                       class="button-link download-button"
+                       download  {# HTML5 download attribute hint #}
+                       onclick="showLoading()"> {# Show overlay on click #}
+                        Download
+                    </a>
+                </div>
+
+            </div> <!-- End media-item -->
+            {% endfor %}
+        {% else %}
+            <p style="grid-column: 1 / -1; text-align: center;">No media items found or failed to process.</p> <!-- Span full grid width if no items -->
+        {% endif %}
+    </div> <!-- End media-grid -->
+
+
+    <hr>
+    <p class="back-link"><a href="{{ url_for('index') }}">Enter another URL</a></p>
+
+    <!-- JavaScript for Loading Overlay -->
+    <script>
+        function showLoading() {
+            const overlay = document.getElementById('loading-overlay');
+            if (overlay) {
+                overlay.style.display = 'flex';
+                // Hide overlay after a sensible delay. Browser shows its own progress.
+                setTimeout(() => {
+                     if (overlay.style.display === 'flex') { // Only hide if still visible
+                         overlay.style.display = 'none';
+                     }
+                }, 6000); // Hide after 6 seconds
+            }
+        }
+
+        // Hide overlay if user navigates back using browser buttons
+        window.addEventListener('pageshow', function(event) {
+             if (event.persisted) { // Check if page loaded from bfcache
+                 const overlay = document.getElementById('loading-overlay');
+                 if (overlay && overlay.style.display !== 'none') {
+                     overlay.style.display = 'none';
+                 }
+             }
+        });
+    </script>
+
+</body>
+</html>

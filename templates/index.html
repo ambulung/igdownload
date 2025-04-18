@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Crucial for responsiveness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Downloader</title>
+    <!-- Link the CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Favicon placeholder -->
+    <link rel="icon" href="#" type="image/x-icon">
+</head>
+<body>
+    <h1>Instagram Downloader</h1>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Input Form -->
+    <form action="{{ url_for('fetch_info') }}" method="post" id="fetch-form">
+        <label for="url">Instagram Post/Reel URL:</label>
+        <input type="url" id="url" name="url" placeholder="Paste URL here (e.g., https://www.instagram.com/p/C.../)" required>
+        <!-- Helper text -->
+        <small class="input-helper-text">
+            Please provide the full URL to the Instagram post, reel, or TV video.
+        </small>
+        <!-- Submit button -->
+        <button type="submit" id="fetch-button">Fetch Info</button>
+    </form>
+
+    <!-- JavaScript for Fetch Button Loading Indicator -->
+    <script>
+        const fetchForm = document.getElementById('fetch-form');
+        const fetchButton = document.getElementById('fetch-button');
+
+        if (fetchForm && fetchButton) {
+            fetchForm.addEventListener('submit', function() {
+                // Basic validation (optional, HTML5 required handles empty)
+                const urlInput = document.getElementById('url');
+                if (urlInput && urlInput.value.trim() === '') {
+                    // Avoid disabling button if input is empty and required handles it
+                    return;
+                }
+                // Disable button and change text on submit
+                fetchButton.disabled = true;
+                fetchButton.textContent = 'Fetching...';
+                // Note: If fetch fails and redirects back, button remains disabled.
+                // More complex JS could handle re-enabling on page load if needed.
+            });
+        }
+    </script>
+
+</body>
+</html>

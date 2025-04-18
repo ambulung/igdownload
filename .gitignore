@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+venv/
+env/
+*.log
+# Add any other specific files/folders like download folders if created locally
+# instagram_downloads_flask/ # If you ever create this locally

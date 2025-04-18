@@ -1,0 +1,279 @@
+/* static/style.css - Black & Dark Pink Dark Mode Theme */
+
+:root {
+    --bg-color: #1a1a1a;         /* Very dark gray background */
+    --card-bg-color: #2c2c2c;     /* Slightly lighter card/form background */
+    --text-color: #e0e0e0;       /* Light gray text */
+    --text-secondary: #aaaaaa;   /* Dimmer text for labels/secondary info */
+    /* --- Updated Pink Colors --- */
+    --primary-pink: #d81b60;     /* Darker Pink */
+    --primary-pink-hover: #c2185b;/* Slightly darker pink for hover */
+    /* --- Rest of the variables remain the same --- */
+    --border-color: #444444;     /* Dark border color */
+    --input-bg: #333333;         /* Input field background */
+
+    --success-bg: #144724;       /* Dark green background for success */
+    --success-text: #d4edda;     /* Light text for success */
+    --success-border: #639b7a;    /* Dim green border for success */
+
+    --error-bg: #5c1c24;         /* Dark red background for error */
+    --error-text: #f8d7da;       /* Light text for error */
+    --error-border: #a55b60;      /* Dim red border for error */
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    max-width: 700px; /* Base max width */
+    margin: 2em auto;
+    padding: 1.5em;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+h1, h2 {
+    color: #ffffff; /* Brighter white for headings */
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+h1 {
+    font-size: 2em;
+    border-bottom: 2px solid var(--primary-pink); /* Pink underline for main heading */
+    padding-bottom: 0.5em;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin-top: 1.5em;
+}
+
+/* --- Flash Messages --- */
+.flash {
+    padding: 1em;
+    margin-bottom: 1.5em;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    text-align: center;
+}
+
+.flash.error {
+    background-color: var(--error-bg);
+    color: var(--error-text);
+    border-color: var(--error-border);
+}
+
+.flash.success {
+    background-color: var(--success-bg);
+    color: var(--success-text);
+    border-color: var(--success-border);
+}
+
+/* --- Forms --- */
+form {
+    margin-top: 1.5em;
+    background-color: var(--card-bg-color);
+    padding: 1.5em;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    box-shadow: none;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.6em;
+    font-weight: bold;
+    color: var(--text-secondary);
+}
+
+input[type="url"] {
+    width: 100%;
+    padding: 0.8em;
+    margin-bottom: 0.5em;
+    box-sizing: border-box;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+input[type="url"]:focus {
+    border-color: var(--primary-pink);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(216, 27, 96, 0.3); /* Updated pink glow */
+}
+
+.input-helper-text {
+    font-size: 0.85em;
+    color: var(--text-secondary);
+    margin-bottom: 1.2em;
+    display: block;
+}
+
+/* --- Buttons --- */
+button, .button-link {
+    display: inline-block;
+    padding: 0.8em 1.8em;
+    background-color: var(--primary-pink);
+    color: #ffffff !important; /* White text on darker pink */
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    margin-top: 0.5em;
+}
+
+button:hover, .button-link:hover {
+    background-color: var(--primary-pink-hover);
+    color: #ffffff !important;
+    text-decoration: none;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: var(--primary-pink);
+}
+
+button[type="submit"] {
+    width: 100%;
+    margin-top: 0;
+}
+
+/* --- Results Page Specific --- */
+/* Container for basic info */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-top: 1.5em;
+    padding: 1.5em;
+    background-color: var(--card-bg-color);
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    box-shadow: none;
+}
+
+.info { /* For the username/caption info block */
+   flex: 1;
+   min-width: 280px;
+   background-color: transparent !important; /* Override form background */
+   border: none !important;
+   padding: 0 !important;
+}
+
+.info h2 {
+    margin-top: 0 !important;
+}
+
+.caption {
+    margin-top: 10px;
+    font-size: 0.95em;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: var(--input-bg);
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: var(--text-secondary);
+}
+
+.error-message { /* Generic error message text */
+    color: #ff8a8a;
+    font-style: italic;
+    margin-top: 10px;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 2em 0;
+}
+
+/* --- Links --- */
+a {
+    color: var(--primary-pink);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 1.5em;
+}
+
+/* --- Responsive Adjustments --- */
+
+/* Medium Screens and Smaller (Tablets, Large Phones) */
+@media (max-width: 768px) {
+    body {
+        /* Reduce horizontal margin/padding */
+        margin: 1.5em;
+        padding: 1.2em;
+        max-width: 95%; /* Allow body to use more width */
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+    h2 {
+        font-size: 1.4em;
+    }
+
+    /* Results page grid adjustments already handled by its inline style */
+}
+
+/* Small Screens (Phones) */
+@media (max-width: 480px) {
+    body {
+        /* Further reduce margin/padding */
+        margin: 1em;
+        padding: 1em;
+        /* Optionally decrease base font size slightly */
+        /* font-size: 95%; */
+    }
+
+    h1 {
+        font-size: 1.6em;
+    }
+    h2 {
+        font-size: 1.3em;
+    }
+
+    /* Make flash messages less padded */
+    .flash {
+        padding: 0.8em;
+        margin-bottom: 1em;
+    }
+
+    /* Adjust form padding */
+    form {
+        padding: 1em;
+    }
+
+    /* Adjust container padding */
+    .container {
+        padding: 1em;
+        gap: 15px;
+    }
+
+    /* Adjust loading overlay text size */
+     #loading-overlay p { /* Target p tag inside overlay */
+        font-size: 1.2em;
+     }
+     #loading-overlay p small {
+         font-size: 0.8em;
+     }
+}
