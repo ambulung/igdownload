@@ -1,14 +1,13 @@
 /* static/style.css - Black & Dark Pink Dark Mode Theme */
 
+/* --- CSS Variables --- */
 :root {
     --bg-color: #1a1a1a;         /* Very dark gray background */
     --card-bg-color: #2c2c2c;     /* Slightly lighter card/form background */
     --text-color: #e0e0e0;       /* Light gray text */
     --text-secondary: #aaaaaa;   /* Dimmer text for labels/secondary info */
-    /* --- Updated Pink Colors --- */
     --primary-pink: #d81b60;     /* Darker Pink */
     --primary-pink-hover: #c2185b;/* Slightly darker pink for hover */
-    /* --- Rest of the variables remain the same --- */
     --border-color: #444444;     /* Dark border color */
     --input-bg: #333333;         /* Input field background */
 
@@ -21,6 +20,7 @@
     --error-border: #a55b60;      /* Dim red border for error */
 }
 
+/* --- General Styles --- */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     max-width: 700px; /* Base max width */
@@ -39,12 +39,34 @@ h1, h2 {
 
 h1 {
     font-size: 2em;
-    border-bottom: 2px solid var(--primary-pink); /* Pink underline for main heading */
+    border-bottom: 2px solid var(--primary-pink);
     padding-bottom: 0.5em;
 }
 
 h2 {
     font-size: 1.5em;
+    margin-top: 1.5em;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 2em 0;
+}
+
+a {
+    color: var(--primary-pink);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.back-link {
+    display: block;
+    text-align: center;
     margin-top: 1.5em;
 }
 
@@ -69,7 +91,7 @@ h2 {
     border-color: var(--success-border);
 }
 
-/* --- Forms --- */
+/* --- Forms & Inputs --- */
 form {
     margin-top: 1.5em;
     background-color: var(--card-bg-color);
@@ -86,7 +108,8 @@ label {
     color: var(--text-secondary);
 }
 
-input[type="url"] {
+input[type="url"],
+input[type="text"] { /* Added text input styling */
     width: 100%;
     padding: 0.8em;
     margin-bottom: 0.5em;
@@ -98,7 +121,8 @@ input[type="url"] {
     font-size: 1em;
 }
 
-input[type="url"]:focus {
+input[type="url"]:focus,
+input[type="text"]:focus {
     border-color: var(--primary-pink);
     outline: none;
     box-shadow: 0 0 0 2px rgba(216, 27, 96, 0.3); /* Updated pink glow */
@@ -109,6 +133,61 @@ input[type="url"]:focus {
     color: var(--text-secondary);
     margin-bottom: 1.2em;
     display: block;
+}
+
+/* --- Radio Button Choice Styles (index page) --- */
+.fetch-type-chooser {
+    margin-bottom: 1.5em;
+    padding: 1em 1.5em;
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    text-align: center;
+}
+
+.fetch-type-chooser label {
+    display: inline-block; /* Place labels side-by-side */
+    margin-right: 1.5em; /* Spacing between options */
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-weight: normal; /* Override default bold label */
+}
+.fetch-type-chooser label:last-child {
+    margin-right: 0;
+}
+
+.fetch-type-chooser input[type="radio"] {
+    margin-right: 0.5em;
+    appearance: none;
+    background-color: var(--input-bg);
+    border: 1px solid var(--primary-pink);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%; /* Make it round */
+    position: relative;
+    vertical-align: middle;
+    cursor: pointer;
+    top: -1px;
+}
+.fetch-type-chooser input[type="radio"]:checked {
+    background-color: var(--primary-pink);
+}
+.fetch-type-chooser input[type="radio"]:checked::after {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--bg-color); /* Inner dot color */
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Hide input sections controlled by radio buttons */
+#url-input-section, #username-input-section {
+    display: none; /* Initially hidden */
 }
 
 /* --- Buttons --- */
@@ -159,10 +238,10 @@ button[type="submit"] {
     box-shadow: none;
 }
 
-.info { /* For the username/caption info block */
+.info { /* For the username/caption info block within .container */
    flex: 1;
    min-width: 280px;
-   background-color: transparent !important; /* Override form background */
+   background-color: transparent !important; /* Make transparent inside .container */
    border: none !important;
    padding: 0 !important;
 }
@@ -186,32 +265,115 @@ button[type="submit"] {
 }
 
 .error-message { /* Generic error message text */
-    color: #ff8a8a;
+    color: var(--error-text); /* Use variable */
     font-style: italic;
     margin-top: 10px;
 }
 
-hr {
-    border: 0;
-    height: 1px;
-    background-color: var(--border-color);
-    margin: 2em 0;
-}
-
-/* --- Links --- */
-a {
-    color: var(--primary-pink);
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-.back-link {
-    display: block;
-    text-align: center;
+/* --- Media Grid Styles (results page) --- */
+.media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
     margin-top: 1.5em;
+}
+
+.media-item {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.media-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.media-item .image-container {
+     width: 100%;
+     aspect-ratio: 1 / 1;
+     background-color: var(--input-bg);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     overflow: hidden;
+     border-bottom: 1px solid var(--border-color);
+}
+
+.media-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.media-item .preview-error-item {
+     padding: 10px;
+     color: var(--error-text);
+     font-size: 0.9em;
+     width: 100%;
+     height: 100%;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     line-height: 1.3;
+ }
+ .media-item .preview-error-item strong {
+     font-size: 1.5em;
+     margin-bottom: 5px;
+ }
+
+.media-item .item-info {
+     padding: 12px 10px 8px 10px;
+     font-size: 0.9em;
+     color: var(--text-secondary);
+     flex-shrink: 0;
+}
+.media-item .item-type-icon {
+    font-size: 1.1em;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.media-item .item-timestamp { /* Style for story timestamp */
+    font-size: 0.75em;
+    display: block;
+    margin-top: 4px;
+    opacity: 0.8;
+}
+
+.media-item .download-button-container {
+     padding: 0px 10px 12px 10px;
+     margin-top: auto; /* Pushes button to bottom */
+     flex-shrink: 0;
+}
+
+.media-item .download-button { /* Styles for the button inside grid items */
+    padding: 0.6em 1.2em;
+    font-size: 0.9em;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+}
+
+/* --- Loading Overlay --- */
+#loading-overlay {
+     position: fixed;
+     top: 0; left: 0; width: 100%; height: 100%;
+     background-color: rgba(0, 0, 0, 0.7);
+     z-index: 1000;
+     display: none; /* Initially hidden */
+     justify-content: center;
+     align-items: center;
+     color: white;
+     font-size: 1.5em;
+     text-align: center;
+     padding: 20px;
 }
 
 /* --- Responsive Adjustments --- */
@@ -219,61 +381,59 @@ a:hover {
 /* Medium Screens and Smaller (Tablets, Large Phones) */
 @media (max-width: 768px) {
     body {
-        /* Reduce horizontal margin/padding */
         margin: 1.5em;
         padding: 1.2em;
         max-width: 95%; /* Allow body to use more width */
     }
+    h1 { font-size: 1.8em; }
+    h2 { font-size: 1.4em; }
 
-    h1 {
-        font-size: 1.8em;
+    /* Adjust grid item size and text */
+    .media-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 15px;
     }
-    h2 {
-        font-size: 1.4em;
+    .media-item .item-info,
+    .media-item .download-button {
+        font-size: 0.85em;
     }
-
-    /* Results page grid adjustments already handled by its inline style */
+     .media-item .download-button {
+        padding: 0.5em 1em;
+    }
 }
 
 /* Small Screens (Phones) */
 @media (max-width: 480px) {
     body {
-        /* Further reduce margin/padding */
         margin: 1em;
         padding: 1em;
-        /* Optionally decrease base font size slightly */
-        /* font-size: 95%; */
+    }
+    h1 { font-size: 1.6em; }
+    h2 { font-size: 1.3em; }
+
+    .flash { padding: 0.8em; margin-bottom: 1em; }
+    form, .container { padding: 1em; }
+    .container { gap: 15px; } /* Reduce gap in info container too */
+
+    /* Stack radio buttons */
+    .fetch-type-chooser label {
+        display: block;
+        margin-right: 0;
+        margin-bottom: 0.8em;
+    }
+    .fetch-type-chooser label:last-child { margin-bottom: 0; }
+
+    /* Adjust grid significantly */
+    .media-grid {
+        grid-template-columns: repeat(2, 1fr); /* Force 2 columns */
+        gap: 12px;
+    }
+    .media-item .download-button {
+        font-size: 0.8em;
+        padding: 0.6em 0.8em;
     }
 
-    h1 {
-        font-size: 1.6em;
-    }
-    h2 {
-        font-size: 1.3em;
-    }
-
-    /* Make flash messages less padded */
-    .flash {
-        padding: 0.8em;
-        margin-bottom: 1em;
-    }
-
-    /* Adjust form padding */
-    form {
-        padding: 1em;
-    }
-
-    /* Adjust container padding */
-    .container {
-        padding: 1em;
-        gap: 15px;
-    }
-
-    /* Adjust loading overlay text size */
-     #loading-overlay p { /* Target p tag inside overlay */
-        font-size: 1.2em;
-     }
-     #loading-overlay p small {
-         font-size: 0.8em;
-     }
+    /* Adjust loading overlay text */
+     #loading-overlay p { font-size: 1.2em; }
+     #loading-overlay p small { font-size: 0.8em; }
 }
