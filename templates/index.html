@@ -33,6 +33,7 @@
 
     <!-- Input Form -->
     <form action="{{ url_for('fetch_info') }}" method="post" id="fetch-form">
+<<<<<<< HEAD
         <!-- Hidden input to pass fetch_type (set by JS) -->
         <input type="hidden" id="fetch_type_hidden" name="fetch_type" value="url">
 
@@ -54,6 +55,14 @@
             </small>
         </div>
 
+=======
+        <label for="url">Instagram Post/Reel URL:</label>
+        <input type="url" id="url" name="url" placeholder="Paste URL here..." required>
+        <!-- Helper text -->
+        <small class="input-helper-text">
+            Please provide the full URL to the Instagram post, reel or video.
+        </small>
+>>>>>>> 2806e35d3d01b18f45259d9356f586d0c6e5f850
         <!-- Submit button -->
         <button type="submit" id="fetch-button">Fetch Info</button>
     </form>
