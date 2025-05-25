@@ -285,7 +285,6 @@ if __name__ == '__main__':
     else:
          print(" * Secret Key: Set via ENV or Flask config") # Or however you set it locally
     print(f" * Session storage: Default Client-Side")
-    print(f" * Downloads will be prompted by the browser.")
     print(f" * Filenames will be random 4-digit numbers.")
     print(f"\n * Running on http://127.0.0.1:5001 or http://0.0.0.0:5001")
     print(" * Press CTRL+C to quit")
