@@ -288,7 +288,6 @@ if __name__ == '__main__':
     print(f" * Downloads will be prompted by the browser.")
     print(f" * Filenames will be random 4-digit numbers.")
     print(f"\n * Running on http://127.0.0.1:5001 or http://0.0.0.0:5001")
-    print(" * Press CTRL+C to quit")
 
     # Use debug=False for more production-like local testing if desired
     # host='0.0.0.0' makes it accessible on your network
