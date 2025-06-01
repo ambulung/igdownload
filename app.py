@@ -11,23 +11,11 @@ import instaloader
 import requests
 from PIL import Image
 
-from keep_alive import keep_alive
-
 # --- Configuration ---
 # Use environment variable for SECRET_KEY, provide a default ONLY for local dev
 SECRET_KEY = os.environ.get('SECRET_KEY', 'local-dev-secret-fallback-value')
 MAX_CAPTION_DISPLAY = 250
 PREVIEW_SIZE = (200, 200) # Size for preview thumbnails
-
-keep_alive()
-
-# --- Initialize Flask App ---
-app = Flask(__name__)
-app.config['SECRET_KEY'] = SECRET_KEY
-# Optional: Server-side sessions if needed
-# from flask_session import Session
-# app.config['SESSION_TYPE'] = 'filesystem'
-# Session(app)
 
 # --- Helper Functions ---
 
